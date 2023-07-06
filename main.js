@@ -1,4 +1,4 @@
-const ru = "абвгдеёжзийклмнопрстуфхцчшщэюяыАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯЫ";
+const ru = "абвгдеёжзийклмнопрстуфхцчшщэюяьъыАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯЫЬЪ";
 const en = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function offFileName() {
