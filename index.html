@@ -70,7 +70,7 @@
                         if (parent.dataset.focus >= parent.children.length - 3) this.classList.add("disabled");
                     });
                 } else {
-                    $("main").html(`<div class="button" id="createGame">создать игру</div>`);
+                    // $("main").html(`<div class="button" id="createGame">создать игру</div>`);
                 }
                 $(".button#createGame").on("click", function () {
                     window.history.pushState({}, document.title, "/matchword/createGame/");
