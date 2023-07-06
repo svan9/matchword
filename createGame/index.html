@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="../main.js"></script>
+        <link rel="shortcut icon" href="../icon.ico" type="image/x-icon" />
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        <link rel="stylesheet" href="../main.css" />
+        <title>create game</title>
+    </head>
+    <body>
+        <header></header>
+        <main>
+            <div class="wordRow" id="finishWord" data-length="5"></div>
+            <div class="button calm disabled" id="getLink">получить ссылку</div>
+            <a id="link"></a>
+            <div class="message error" id="wordNotExist">слово не существует</div>
+            <script>
+                $("#finishWord").on("keydown", "input", (e) => {
+                    if (ru.indexOf(e.key) == -1) return;
+                    setTimeout(() => {
+                        if (getWordByWordRow($("#finishWord")[0]).length == $("#finishWord")[0].dataset.length - 0) {
+                            $("#getLink").removeClass("disabled");
+                        }
+                    }, 100);
+                });
+                $("#getLink").on("click", async function () {
+                    if (this.classList.has("disabled")) return;
+                    const word = getWordByWordRow($("#finishWord")[0]);
+                    if (!(await wordIsNotExist(word))) {
+                        $("#wordNotExist").addClass("go");
+                        setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
+                    } else {
+                        var text = `http://svan9.github.io/matchword/?word=${decodeURIComponent(
+                            btoa([...word].map((e) => ru.indexOf(e) + "").join(","))
+                        )}`;
+                        $("#link").attr("href", text).html(text);
+                    }
+                });
+            </script>
+        </main>
+    </body>
+</html>
