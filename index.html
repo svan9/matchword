@@ -57,17 +57,26 @@
                                 [...getWordByWordRow(local)].map((e, i) => (e == finishWord.at(i) ? true : false))
                             ),
                         ];
+
                         local.classList.add("disabled");
 
-                        if (set.length == 1) {
+                        if (set.length == 1 && set[0]) {
                             parent.dataset.won = "true";
                             $("#wonMessage").addClass("push");
                             return;
                         }
-
+                        console.log(parent.dataset.focus, parent.children.length);
                         parent.dataset.focus++;
+
                         parent.children.item(parent.dataset.focus).classList.remove("disabled");
-                        if (parent.dataset.focus >= parent.children.length - 3) this.classList.add("disabled");
+                        if (parent.dataset.focus >= parent.children.length - 1) {
+                            parent.dataset.won = "true";
+                            $("#wonMessage").addClass("push");
+                            $("#wonMessage").addClass("error");
+                            $("#wonMessage").html("проигрыш");
+
+                            this.classList.add("disabled");
+                        }
                     });
                 } else {
                     // $("main").html(`<div class="button" id="createGame">создать игру</div>`);
