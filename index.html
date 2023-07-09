@@ -10,80 +10,24 @@
         <title>Match words</title>
     </head>
     <body>
+        <loader><span></span></loader>
         <header></header>
         <main>
+            <script src="./src/game.js"></script>
             <script>
+                console.log(window.location.search);
                 var urlParams = new URLSearchParams(window.location.search);
                 if (window.location.search != "" && urlParams.get("word") != null) {
-                    var finishWord = atob(urlParams.get("word"))
-                        .split(",")
-                        .map((e) => ru[e])
-                        .join("");
-
-                    $("main").html(`<div class="wordsColumn" data-focus="0" data-complitedchars="" data-oplacechars="">
-                        <div class="wordRow" id="finishWord" data-length="5"></div>
-                            ${`<div class="wordRow disabled" id="finishWord" data-length="5"></div>`.repeat(5)}
-                            <div class="button" id="confirm">проверить</div>
-                            </div>
-                            <div class="message error" id="wordNotExist">слово не существует</div>
-                            <div class="message won" id="wonMessage">победа</div>
-                            `);
-
-                    $(".wordsColumn").on("click", ".button#confirm", async function (e) {
-                        if (this.classList.has("disabled")) return;
-                        var parent = e.delegateTarget;
-                        var local = parent.children.item(parent.dataset.focus);
-                        if (parent.dataset.won == "true") {
-                            local.classList.add("disabled");
-                            return;
-                        }
-
-                        if (getWordByWordRow(local).length != Number(local.dataset.length)) {
-                            return;
-                        }
-                        if (!(await wordIsNotExist(getWordByWordRow(local)))) {
-                            $("#wordNotExist").addClass("go");
-                            setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
-                            return;
-                        }
-
-                        [...getWordByWordRow(local)].forEach((e, i) => {
-                            if (e == finishWord.at(i)) local.children.item(i).style.color = "#49f21e";
-                            else if (finishWord.indexOf(e) != -1) local.children.item(i).style.color = "#ffd500";
-                            else local.children.item(i).style.color = "#4f4f4f";
-                        });
-                        let set = [
-                            ...new Set(
-                                [...getWordByWordRow(local)].map((e, i) => (e == finishWord.at(i) ? true : false))
-                            ),
-                        ];
-
-                        local.classList.add("disabled");
-
-                        if (set.length == 1 && set[0]) {
-                            parent.dataset.won = "true";
-                            $("#wonMessage").addClass("push");
-                            return;
-                        }
-                        console.log(parent.dataset.focus, parent.children.length);
-                        parent.dataset.focus++;
-
-                        parent.children.item(parent.dataset.focus).classList.remove("disabled");
-                        if (parent.dataset.focus >= parent.children.length - 1) {
-                            parent.dataset.won = "true";
-                            $("#wonMessage").addClass("push");
-                            $("#wonMessage").addClass("error");
-                            $("#wonMessage").html("проигрыш");
-
-                            this.classList.add("disabled");
-                        }
-                    });
+                    startGAME(urlParams);
                 } else {
-                    // $("main").html(`<div class="button" id="createGame">создать игру</div>`);
+                    pushHTML("main", "main");
                 }
                 $(".button#createGame").on("click", function () {
                     window.history.pushState({}, document.title, "/matchword/createGame/");
                     window.location.reload();
+                });
+                window.addEventListener("load", function (ev) {
+                    $("loader").remove();
                 });
             </script>
         </main>

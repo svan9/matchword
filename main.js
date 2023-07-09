@@ -71,6 +71,14 @@ async function wordIsNotExist(word) {
 
 function ruToBase64(string) {}
 
+function pushHTML(name, where) {
+    let parent = $(document.createElement("div"));
+    parent.attr("from", name);
+    parent.load(`./html/${name}.html`);
+
+    $(where).append(parent);
+}
+
 window.onload = () => {
     offFileName();
     putWordRows();
