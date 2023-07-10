@@ -25,6 +25,7 @@ function startGAME(urlParams) {
 
     $(".wordsColumn").on("mouseenter", "info", async function (e) {
         var lbl = this.getElementsByTagName("label")[0];
+        if (wordInfo.def.length == 0) return;
         lbl.innerHTML = wordInfo.def[0].tr.map((e) => e.text).slice(0, 4).join(", ");
     });
 
