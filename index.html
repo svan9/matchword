@@ -3,29 +3,25 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="./main.js"></script>
-        <link rel="shortcut icon" href="icon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="source/icon.ico" type="image/x-icon" />
         <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+        <script src="./main.js"></script>
         <link rel="stylesheet" href="main.css" />
         <title>Match words</title>
     </head>
     <body>
-        <loader><span></span></loader>
+        <loader><span>whats up😊</span></loader>
         <header></header>
         <main>
             <script src="./src/game.js"></script>
             <script>
-                console.log(window.location.search);
                 var urlParams = new URLSearchParams(window.location.search);
                 if (window.location.search != "" && urlParams.get("word") != null) {
+                    pushHTML("game", "header");
                     startGAME(urlParams);
                 } else {
                     pushHTML("main", "main");
                 }
-                $(".button#createGame").on("click", function () {
-                    window.history.pushState({}, document.title, "/matchword/createGame/");
-                    window.location.reload();
-                });
                 window.addEventListener("load", function (ev) {
                     $("loader").remove();
                 });

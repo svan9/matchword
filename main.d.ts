@@ -1,0 +1,1 @@
+function pushHTML(name: string, where: string | Element): void;

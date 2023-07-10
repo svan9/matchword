@@ -1,1 +1,33 @@
+<div class="interface">
+    <div id="gotomain">
+        <label>на главную</label>
+        <img src="./source/home.svg" />
+    </div>
+    <div id="rerandgame">
+        <label>перегенерировать игру</label>
+        <img src="./source/loading.png" />
+    </div>
 
+    <script>
+        $("#gotomain").on("click", function (e) {
+            window.history.pushState({}, "", window.location.href);
+            window.history.pushState(
+                {},
+                "",
+                window.location.protocol + "//" + window.location.host + window.location.pathname
+            );
+            window.location.reload();
+        });
+        $("#rerandgame").on("click", async function (e) {
+            var word = await getRandomWord(5);
+            var text =
+                window.location.protocol +
+                "//" +
+                window.location.host +
+                window.location.pathname +
+                `?word=${decodeURIComponent(btoa([...word].map((e) => ru.indexOf(e) + "").join(",")))}`;
+            window.history.pushState({}, "", text);
+            window.location.reload();
+        });
+    </script>
+</div>

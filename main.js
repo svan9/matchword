@@ -58,6 +58,17 @@ function getWordByWordRow(row) {
     return [...row.children].reduce((a, e) => a + e.value, "");
 }
 
+async function getInfoWord(word) {
+    const link =
+        "https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20230705T171302Z.ccadeec9e136544a.76e97b76f5f7ebf3e60f63c8c7d1d11c5829898b&lang=ru-ru&text=" +
+        decodeURI(word);
+    return await new Promise((res, rej) => {
+        fetch(link).then(async (e) => {
+            res(await e.json());
+        });
+    });
+}
+
 async function wordIsNotExist(word) {
     const link =
         "https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20230705T171302Z.ccadeec9e136544a.76e97b76f5f7ebf3e60f63c8c7d1d11c5829898b&lang=ru-ru&text=" +
@@ -69,13 +80,32 @@ async function wordIsNotExist(word) {
     });
 }
 
-function ruToBase64(string) {}
+function randrange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min) - 0;
+}
+
+function getRandomWord(length) {
+    return new Promise((res, rej) =>
+        $.ajax({
+            url: "./source/dictionary.json",
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                function getLength() {
+                    let w = data.wordlist[randrange(0, data.wordlist.length - 1)];
+                    if (w.name.length != length) w = getLength();
+                    return w;
+                }
+                res(getLength().name.toLowerCase());
+            },
+        })
+    );
+}
 
 function pushHTML(name, where) {
     let parent = $(document.createElement("div"));
     parent.attr("from", name);
     parent.load(`./html/${name}.html`);
-
     $(where).append(parent);
 }
 

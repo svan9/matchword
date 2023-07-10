@@ -8,6 +8,7 @@ function startGAME(urlParams) {
     <div class="wordsColumn" data-focus="0" data-complitedchars="" data-oplacechars="">
         <div class="wordRow" id="finishWord" data-length="5"></div>
             ${`<div class="wordRow disabled" data-length="5"></div>`.repeat(5)}
+        <info><img src="./source/info.svg"/><label></label></info>
         <div class="button" id="confirm">проверить</div>
     </div>
     <div class="description">ввод букв осуществляется только на киррилице, при вводе с экранной клавиатуры телефона ввод букв осуществляется отдельно</div>
@@ -15,7 +16,31 @@ function startGAME(urlParams) {
     <div class="message won" id="wonMessage">победа</div>
     `);
     var useWords = [];
+    var wordInfo = {};
 
+    $(".wordsColumn").on("mouseleave", "info", async function (e) {
+        var lbl = this.getElementsByTagName("label")[0];
+        lbl.innerHTML = "";
+    });
+
+    $(".wordsColumn").on("mouseenter", "info", async function (e) {
+        var lbl = this.getElementsByTagName("label")[0];
+        lbl.innerHTML = wordInfo.def[0].tr.map((e) => e.text).slice(0, 4).join(", ");
+    });
+
+    $(".wordsColumn").on("mouseenter", ".wordRow", async function (e) {
+        const word = getWordByWordRow(this).toLowerCase();
+        if (!(word != "" && this.classList.has("disabled"))) return;
+        wordInfo = await getInfoWord(word);
+        var st = this.getBoundingClientRect();
+        this.style.cursor = "help";
+
+        $(".wordsColumn info").css({
+            top: `${st.top + (st.height / 2 - $(".wordsColumn info")[0].getBoundingClientRect().height / 2)}px`,
+            left: `${st.left + st.width+10}px`,
+            opacity: 1,
+        });
+    });
     $(".wordsColumn").on("click", ".button#confirm", async function (e) {
         if (this.classList.has("disabled")) return;
         var parent = e.delegateTarget;
@@ -68,7 +93,7 @@ function startGAME(urlParams) {
             $("#wonMessage").addClass("push");
             return;
         }
-        console.log(parent.dataset.focus, parent.children.length);
+
         parent.dataset.focus++;
 
         parent.children.item(parent.dataset.focus).classList.remove("disabled");

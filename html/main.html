@@ -29,26 +29,20 @@
     </div>
     <div class="m">или</div>
     <div class="l">
-        <div class="title">играйте по ссылке</div>
-        <input id="input_link" type="text" />
-        <div class="message error" id="wordNotExist">слово не существует</div>
-        <div class="button calm disabled" id="sendLink">найти ссылку</div>
+        <div class="title">играйте со случайным словом</div>
+        <div class="button calm" id="sendLink">сгенерировать ссылку</div>
+        <a id="linkB"></a>
         <script>
-            $("#input_link").on("input", function (e) {
-                const regex = /https?:\/\/(.*\/?)+\/\?word\=.+/gm;
-                // if () {
-                //     // this.value = new URLSearchParams(new URL(this.value.trim()).search).get("word");
-                // }
-                if (this.value.trim() == "") {
-                    $("#sendLink").addClass("disabled");
-                } else if (regex.test(this.value.trim())) {
-                    $("#sendLink").removeClass("disabled");
-                }
-            });
-            $("#sendLink").on("click", function (e) {
-                if (this.classList.has("disabled")) return;
-                window.history.pushState({}, "", $("#input_link").val());
-                window.location.reload();
+            $("#sendLink").on("click", async function (e) {
+                var word = await getRandomWord(5);
+                    
+                var text = decodeURIComponent(btoa([...word].map((e) => ru.indexOf(e) + "").join(",")));
+                $("#linkB")
+                    .attr("href", `http://svan9.github.io/matchword/?word=${text}`)
+                    .html(`http://svan9.github.io/matchword/?word=${text}`);
+                // if (this.classList.has("disabled")) return;
+                // window.history.pushState({}, "", $("#input_link").val());
+                // window.location.reload();
             });
         </script>
     </div>
