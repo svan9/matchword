@@ -21,10 +21,8 @@
                     $("#wordNotExist").addClass("go");
                     setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
                 } else {
-                    var text = `http://svan9.github.io/matchword/?word=${decodeURIComponent(
-                        btoa([...word].map((e) => ru.indexOf(e) + "").join(","))
-                    )}`;
-                    $("#link").attr("href", text).html(text);
+                    var text = decodeURIComponent(btoa([...word].map((e) => ru.indexOf(e) + "").join(",")));
+                    $("#link").attr("href", `http://svan9.github.io/matchword/?word=${text}`).html(text);
                 }
             });
         </script>
@@ -49,7 +47,7 @@
             });
             $("#sendLink").on("click", function (e) {
                 if (this.classList.has("disabled")) return;
-                window.history.pushState({}, "", $("#input_link").val())
+                window.history.pushState({}, "", $("#input_link").val());
                 window.location.reload();
             });
         </script>

@@ -219,13 +219,38 @@ loader > span {
     width: 100%;
 }
 
+@media screen and (width >= 800px) {
+    .oror > .l:hover,
+    .oror > .r:hover {
+        transform: rotate(0deg) scale(105%);
+    }
+    .oror > .l,
+    .oror > .r {
+        transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+    }
+    .oror > .l {
+        transform: rotate(-10deg) translate(-20px, 20px);
+    }
+    .oror > .r {
+        transform: rotate(10deg) translate(20px, 20px);
+    }
+}
+
+@media screen and (width < 800px) {
+    .oror {
+        align-items: center;
+        flex-direction: column;
+    }
+}
+
 .oror > .m {
     font-size: 2rem;
     color: #acacac;
 }
 
 .oror > * {
-    margin: 2rem;
+    text-align: center;
+    margin: 5vw;
 }
 
 .oror > * > .title {
@@ -233,7 +258,7 @@ loader > span {
     letter-spacing: 1px;
     font-size: 1.2rem;
     text-align: center;
-    margin: 5vw 0rem;
+    margin: 3.5vw 0rem;
 }
 
 input {
