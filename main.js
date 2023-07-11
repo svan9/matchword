@@ -123,3 +123,16 @@ Array.prototype.has = function (item) {
     if (this.find((e) => e == item) != undefined) return true;
     return false;
 };
+
+window.addEventListener("load", (ev) => {
+    const randrange = (min, max) => parseInt(Math.random() * (max - min) + min);
+
+    var sheet = new CSSStyleSheet();
+
+    setInterval(() => {
+        sheet.replaceSync(
+            `::selection, -webkit-tap-highlight-color { background: ${`hsl(${randrange(0, 360)} 100% 50% / 20%);`}}`
+        );
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    }, 200);
+});

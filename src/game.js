@@ -12,8 +12,7 @@ function startGAME(urlParams) {
         <div class="button" id="confirm">проверить</div>
     </div>
     <div class="description">ввод букв осуществляется только на киррилице, при вводе с экранной клавиатуры телефона ввод букв осуществляется отдельно</div>
-    <div class="message error" id="wordNotExist">слово не существует</div>
-    <div class="message won" id="wonMessage">победа</div>
+    <div class="message" id="wonMessage">победа</div>
     `);
     var useWords = [];
     var wordInfo = {};
@@ -62,18 +61,18 @@ function startGAME(urlParams) {
         const word = getWordByWordRow(local).toLowerCase();
 
         if (word.length != Number(local.dataset.length)) {
-            $("#wordNotExist").html("слишком короткое слово").addClass("go");
-            setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
+            $("#wonMessage").html("слишком короткое слово").addClass("go").addClass("error");
+            setTimeout(() => $("#wonMessage").removeClass("go"), 5000);
             return;
         }
         if (!(await wordIsNotExist(word))) {
-            $("#wordNotExist").html("слово не существует").addClass("go");
-            setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
+            $("#wonMessage").html("слово не существует").addClass("go").addClass("error");
+            setTimeout(() => $("#wonMessage").removeClass("go"), 5000);
             return;
         }
         if (useWords.indexOf(word) != -1) {
-            $("#wordNotExist").html("слово уже было использовано").addClass("go");
-            setTimeout(() => $("#wordNotExist").removeClass("go"), 5000);
+            $("#wonMessage").html("слово уже было использовано").addClass("go").addClass("error");
+            setTimeout(() => $("#wonMessage").removeClass("go"), 5000);
             return;
         }
 
@@ -103,7 +102,7 @@ function startGAME(urlParams) {
 
         if (set.length == 1 && set[0]) {
             parent.dataset.won = "true";
-            $("#wonMessage").addClass("push");
+            $("#wonMessage").attr("class", "message won push").html("победа");
             return;
         }
 
@@ -112,8 +111,7 @@ function startGAME(urlParams) {
         parent.children.item(parent.dataset.focus).classList.remove("disabled");
         if (parent.dataset.focus >= parent.children.length - 2) {
             parent.dataset.won = "true";
-            $("#wonMessage").addClass("push").addClass("error").html("проигрыш");
-
+            $("#wonMessage").attr("class", "message error push").html("поражение");
             this.classList.add("disabled");
         }
     });
