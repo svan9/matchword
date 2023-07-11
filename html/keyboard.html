@@ -1,0 +1,18 @@
+<div class="keyboard" id="rukb">
+    <script>
+        // generate
+
+        const _keys = ["йцукенгшщзхъ", "фывапролджэ", "ячсмитьбюё"];
+
+        $("#rukb").html(
+            _keys
+                .map(
+                    (e) =>
+                        `<div class="line">${[...e]
+                            .map((c) => `<div class="char" name="${c}">${c}</div>`)
+                            .join("")}</div>`
+                )
+                .join("")
+        );
+    </script>
+</div>

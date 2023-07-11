@@ -26,7 +26,10 @@ function startGAME(urlParams) {
     $(".wordsColumn").on("mouseenter", "info", async function (e) {
         var lbl = this.getElementsByTagName("label")[0];
         if (wordInfo.def.length == 0) return;
-        lbl.innerHTML = wordInfo.def[0].tr.map((e) => e.text).slice(0, 4).join(", ");
+        lbl.innerHTML = wordInfo.def[0].tr
+            .map((e) => e.text)
+            .slice(0, 4)
+            .join(", ");
     });
 
     $(".wordsColumn").on("mouseenter", ".wordRow", async function (e) {
@@ -38,9 +41,14 @@ function startGAME(urlParams) {
 
         $(".wordsColumn info").css({
             top: `${st.top + (st.height / 2 - $(".wordsColumn info")[0].getBoundingClientRect().height / 2)}px`,
-            left: `${st.left + st.width+10}px`,
-            opacity: 1,
+            left: `${st.left + st.width + 10}px`,
         });
+
+        setTimeout(() => {
+            $(".wordsColumn info").css({
+                opacity: 1,
+            });
+        }, 500);
     });
     $(".wordsColumn").on("click", ".button#confirm", async function (e) {
         if (this.classList.has("disabled")) return;
@@ -76,12 +84,16 @@ function startGAME(urlParams) {
                 if (e == finishWord.at(i)) {
                     // true position
                     local.children.item(i).classList.add("true_position_char");
+                    $("#rukb").find(`.char[name=${e}]`).addClass("true_position_char");
                 } else if (finishWord.indexOf(e) != -1) {
                     // char is exists
                     local.children.item(i).classList.add("is_exists_char");
+                    if ($("#rukb").find(`.char[name=${e}]`).hasClass("true_position_char")) return;
+                    $("#rukb").find(`.char[name=${e}]`).addClass("is_exists_char");
                 } else {
                     // char is not exists
                     local.children.item(i).classList.add("default_char");
+                    $("#rukb").find(`.char[name=${e}]`).addClass("default_char");
                 }
             }, 100 * i);
         });
@@ -98,11 +110,9 @@ function startGAME(urlParams) {
         parent.dataset.focus++;
 
         parent.children.item(parent.dataset.focus).classList.remove("disabled");
-        if (parent.dataset.focus >= parent.children.length - 1) {
+        if (parent.dataset.focus >= parent.children.length - 2) {
             parent.dataset.won = "true";
-            $("#wonMessage").addClass("push");
-            $("#wonMessage").addClass("error");
-            $("#wonMessage").html("проигрыш");
+            $("#wonMessage").addClass("push").addClass("error").html("проигрыш");
 
             this.classList.add("disabled");
         }

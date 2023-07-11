@@ -12,20 +12,21 @@
     <body>
         <loader><span>whats up😊</span></loader>
         <header></header>
-        <main>
-            <script src="./src/game.js"></script>
-            <script>
-                var urlParams = new URLSearchParams(window.location.search);
-                if (window.location.search != "" && urlParams.get("word") != null) {
-                    pushHTML("game", "header");
-                    startGAME(urlParams);
-                } else {
-                    pushHTML("main", "main");
-                }
-                window.addEventListener("load", function (ev) {
-                    $("loader").remove();
-                });
-            </script>
-        </main>
+        <main></main>
+        <footer></footer>
+        <script src="./src/game.js"></script>
+        <script>
+            var urlParams = new URLSearchParams(window.location.search);
+            if (window.location.search != "" && urlParams.get("word") != null) {
+                pushHTML("game", "header");
+                pushHTML("keyboard", "footer");
+                startGAME(urlParams);
+            } else {
+                pushHTML("main", "main");
+            }
+            window.addEventListener("load", function (ev) {
+                $("loader").remove();
+            });
+        </script>
     </body>
 </html>
